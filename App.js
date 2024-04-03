@@ -1,20 +1,33 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import Home from "./components/Home";
+import Gameboard from "./components/Gameboard";
+import Scoreboard from "./components/Scoreboard";
+import { NavigationContainer} from "@react-navigation/native";
+import { createBottomTabNavigator} from "@react-navigation/buttom-tabs";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+const Tab = createBottomTabNavigator();
+
+export default function App(){
+  return(
+    <NavigationContainer>
+      <Tab.Navigatior
+        sceneContainerStyle={{backgroundColor: 'transparent'}}
+        screenOptions={{{ route }}} => ({
+          tabBarIcon: ({focused, color, size}) => {
+            let iconName;
+            if (route.name === 'Home') {
+              iconName = focused
+                ? 'information'
+                : 'information-outline';
+            } else if (route.name === 'Gameboard') {
+              iconName = focused
+                ? 'dice-multiple'
+                : 'dice-multiple-outline';
+            }
+          }
+        })
+      ></Tab.Navigatior>
+
+    </NavigationContainer>
+  )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

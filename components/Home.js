@@ -4,8 +4,7 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import Header from './Header';
 import Footer from './Footer';
 import {NBR_OF_DICES, NBR_OF_THROWS, MIN_SPOT, MAX_SPOT, BONUS_POINTS_LIMIT, BONUS_POINTS} from '../constants/Game';
-
-import style from '../styles/style';
+import Style from '../styles/style';
 
 export default function Home({navigation}){
 
@@ -21,7 +20,7 @@ export default function Home({navigation}){
 
     return(
      <>
-      <Header />
+      <Header/>
       <View>
         <MaterialCommunityIcons
             name='information'

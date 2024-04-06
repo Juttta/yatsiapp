@@ -2,7 +2,7 @@ import React from "react";
 import { Text, View } from "react-native-paper";
 import style from '../styles/style';
 
-export default function Gameboard(){
+export default function Gameboard({navigation}) {
     return (
         <View>
             <Text>

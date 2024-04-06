@@ -12,7 +12,7 @@ export default function App(){
     <NavigationContainer>
       <Tab.Navigatior
         sceneContainerStyle={{backgroundColor: 'transparent'}}
-        screenOptions={{{ route }}} => ({
+        screenOptions={({ route }) => ({
           tabBarIcon: ({focused, color, size}) => {
             let iconName;
             if (route.name === 'Home') {
@@ -23,11 +23,22 @@ export default function App(){
               iconName = focused
                 ? 'dice-multiple'
                 : 'dice-multiple-outline';
+            } else if  (route.name === 'Scoreboard') {
+              iconName = focused
+                ? 'view-list'
+                : 'view-list-outline';
             }
-          }
-        })
-      ></Tab.Navigatior>
-
-    </NavigationContainer>
-  )
+            return <MaterialCommunityIcons
+              name={iconName} size={size} color={color} />;
+          },
+          tabBarActiveTintColor: 'steelblue',
+          tabBarInactiveTintColor: 'gray',
+        })}
+      >
+        <table.Screen name='Home' component={Home} />
+        <table.Screen name='Gameboard' component={Gameboard} />
+        <table.Screen name='Scoreboard' component={Scoreboard} />
+      </Tab.Navigatior>
+      </NavigationContainer>
+  );
 }

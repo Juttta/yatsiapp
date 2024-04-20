@@ -1,8 +1,8 @@
 import React from "react";
 import { Text, View } from "react-native-paper";
-import Style from '../styles/style';
+import style from '../styles/style';
 
-export default function Scoreboard(){
+export default function Scoreboard({navigation}){
     return (
         <View>
             <Text>

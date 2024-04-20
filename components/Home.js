@@ -4,7 +4,7 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import Header from './Header';
 import Footer from './Footer';
 import {NBR_OF_DICES, NBR_OF_THROWS, MIN_SPOT, MAX_SPOT, BONUS_POINTS_LIMIT, BONUS_POINTS} from '../constants/Game';
-import Style from '../styles/style';
+import style from '../styles/style';
 
 export default function Home({navigation}){
 
@@ -64,7 +64,7 @@ export default function Home({navigation}){
             </Text>
             <Text>Good luck, {playerName} </Text>
             <Pressable
-                onPress={() => NavigationPreloadManager.navigate('Gameboard')}>
+                onPress={() => NavigationPreloadManager.navigate('Gameboard', {player: playerName})}>
             <Text>PLAY</Text>
             </Pressable>
          </>

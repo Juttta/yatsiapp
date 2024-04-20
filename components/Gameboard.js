@@ -137,15 +137,15 @@ export default function Gameboard({navigation, route}) {
     return (
      <>
         <Header />
-        <View>
+        <View style = {style.container}>
             <Container>
                 <Row>{row}</Row>
             </Container>
             <Text>Throws Left: {nbrOfThrowsLeft} </Text>
-            <Text>{status}</Text>
+            
             <Pressable
                 onPress = {() => throwDices()}>
-                <Text>Throw Dices</Text>
+                <Text>Throw</Text>
             </Pressable>
             <Container>
                 <Row>{pointsRow}</Row>

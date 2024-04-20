@@ -12,7 +12,7 @@ export default function Home({navigation}){
     const [hasPlayerName, setHasPlayerName] = useState(false);
 
     const handlePlayerName = (value) => {
-        if (value.trim().length > 0) {
+        if (typeof value === 'string' && value.trim().length > 0) {
             setHasPlayerName(true);
             Keyboard.dismiss();
         }
@@ -21,17 +21,17 @@ export default function Home({navigation}){
     return(
         <>
         <Header />
-        <View>
+        <View style = {style.container}>
           <MaterialCommunityIcons
               name='information'
               size={90}
               color='steelblue'
           />
-          {!hasPlayerName ? (
+          
            <>
               <Text> For Scoreboard enter your Name here</Text>
               <TextInput
-                  onChange={setPlayerName}
+                  onChangeText={setPlayerName}
                   autoFocus={true}
               />
               <Pressable
@@ -39,7 +39,7 @@ export default function Home({navigation}){
                   <Text>READY</Text>
               </Pressable>
            </>
-          ) : (
+         
            <>
               <Text>Rules of the game</Text>
               <Text multiline = 'true'> Rules </Text>
@@ -51,7 +51,7 @@ export default function Home({navigation}){
               <Text>PLAY</Text>
               </Pressable>
            </>
-          )}
+         
         </View>
         <Footer />
        </>

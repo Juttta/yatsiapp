@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Text, View, Pressable } from "react-native-paper";
+import { Text, View, Pressable } from "react-native";
 import Header from './Header';
 import Footer from './Footer';
 import {NBR_OF_DICES, NBR_OF_THROWS, MIN_SPOT, MAX_SPOT, BONUS_POINTS_LIMIT, BONUS_POINTS} from '../constants/Game';
@@ -157,5 +157,5 @@ export default function Gameboard({navigation, route}) {
         </View>
         <Footer />
      </>
-    )
+    );
 }

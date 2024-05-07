@@ -23,6 +23,8 @@ export default function Gameboard({navigation, route}) {
 
     const [playerName, setPlayerName] = useState('');
 
+    const [currentRound, setCurrentRound] = useState(1);
+
     useEffect(() => {
         if (playerName === '' && route.params?.player) {
             setPlayerName(route.params.player);
@@ -132,8 +134,16 @@ const selectDicePoints = (i) => {
             setDiceSpots(spots);
             setNbrOfThrowsLeft(nbrOfThrowsLeft-1);
             setBoard(newBoard);
-            setDicePointsTotal(points);
+            
+        } else {
+            if (currentRound < 6){
+                setCurrentRound(currentRound + 1);
+                setNbrOfThrowsLeft(NBR_OF_THROWS);
+            } else {
+                setGameEndStatus(true);
+            }
         }
+        
     };
         
 
@@ -148,6 +158,7 @@ const selectDicePoints = (i) => {
             <Container>
                 <Row>{row}</Row>
             </Container>
+            <Text>Round: {currentRound}</Text>
             <Text> Throw and select dices</Text>
             
             <Text>Throws Left: {nbrOfThrowsLeft} </Text>

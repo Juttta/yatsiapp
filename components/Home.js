@@ -25,7 +25,7 @@ export default function Home({navigation}){
           <MaterialCommunityIcons
               name='information'
               size={90}
-              color='steelblue'
+              color='#FCBB42'
           />
           { !hasPlayerName ?
            <>

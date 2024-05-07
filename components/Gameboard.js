@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Text, View, Pressable } from "react-native";
+import { Text, View, Pressable, Button } from "react-native";
 import Header from './Header';
 import Footer from './Footer';
 import {NBR_OF_DICES, NBR_OF_THROWS, MIN_SPOT, MAX_SPOT, BONUS_POINTS_LIMIT, BONUS_POINTS} from '../constants/Game';
@@ -25,11 +25,19 @@ export default function Gameboard({navigation, route}) {
 
     const [currentRound, setCurrentRound] = useState(1);
 
+    const [totalPoints, setTotalPoints] = useState(0);
+
     useEffect(() => {
         if (playerName === '' && route.params?.player) {
             setPlayerName(route.params.player);
         }
     }, []);
+
+    useEffect(() => {
+        const sum = dicePointsTotal.reduce((acc, cur) => acc + cur, 0);
+        setTotalPoints(sum);
+    }, [dicePointsTotal]);
+
 
     const row = [];
     for (let dice  = 0; dice < NBR_OF_DICES; dice++) {
@@ -89,11 +97,11 @@ export default function Gameboard({navigation, route}) {
     }
 
     function getDiceColor(i) {
-        return selectedDices[i] ? 'black' : 'steelblue'
+        return selectedDices[i] ? 'black' : '#FCBB42'
     }
 
     function getDicePointsColor(i) {
-        return selectedDicePoints[i] ? 'black' : 'steelblue'
+        return selectedDicePoints[i] ? 'black' : '#FCBB42'
     }
 
    
@@ -142,6 +150,7 @@ const selectDicePoints = (i) => {
             } else {
                 setGameEndStatus(true);
             }
+            setSelectedDices(new Array(NBR_OF_DICES).fill(false));
         }
         
     };
@@ -150,6 +159,20 @@ const selectDicePoints = (i) => {
     function getSpotTotal(i) {
         return dicePointsTotal[i];
     }
+
+    const playAgain = () => {
+        // Reset all necessary state variables to start a new game
+        setNbrOfThrowsLeft(NBR_OF_THROWS);
+        setStatus('Throw dices');
+        setGameEndStatus(false);
+        setSelectedDices(new Array(NBR_OF_DICES).fill(false));
+        setDiceSpots(new Array(NBR_OF_DICES).fill(0));
+        setSelectedDicePoints(new Array(MAX_SPOT).fill(false));
+        setDicePointsTotal(new Array(MAX_SPOT).fill(0));
+        setBoard([]);
+        setCurrentRound(1);
+        setTotalPoints(0);
+    };
 
     return (
      <>
@@ -160,9 +183,7 @@ const selectDicePoints = (i) => {
             </Container>
             <Text>Round: {currentRound}</Text>
             <Text> Throw and select dices</Text>
-            
             <Text>Throws Left: {nbrOfThrowsLeft} </Text>
-            
             <Pressable
                 onPress = {() => throwDices()}>
                 <Text>Throw</Text>
@@ -174,6 +195,13 @@ const selectDicePoints = (i) => {
                 <Row>{poinstToSelectRow}</Row>
             </Container>
             <Text>Player name: {playerName}</Text>
+            <Text>Total points: {totalPoints}</Text>
+            {gameEndStatus && (
+                <Button
+                color = '#FFCE54'
+                title= "Play again"
+                onPress={() => playAgain()}/>
+            )}
         </View>
         <Footer />
      </>

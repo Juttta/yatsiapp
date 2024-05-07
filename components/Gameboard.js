@@ -7,7 +7,6 @@ import {MaterialCommunityIcons} from '@expo/vector-icons';
 import {Container,Row, Col} from 'react-native-flex-grid';
 import style from '../styles/style';
 
-let board = [];
 
 export default function Gameboard({navigation, route}) {
 
@@ -18,7 +17,9 @@ export default function Gameboard({navigation, route}) {
     const [selectedDices, setSelectedDices] = useState(new Array(NBR_OF_DICES).fill(false));
     const [diceSpots, setDiceSpots] = useState(new Array(NBR_OF_DICES).fill(0));
     const [selectedDicePoints, setSelectedDicePoints] = useState(new Array(MAX_SPOT).fill(false));
-    const [dicePointsTotal, setDicePoints] = useState(new Array(MAX_SPOT).fill(0));
+    const [dicePointsTotal, setDicePointsTotal] = useState(new Array(MAX_SPOT).fill(0));
+
+    const [board, setBoard] = useState([]);
 
     const [playerName, setPlayerName] = useState('');
 
@@ -93,42 +94,48 @@ export default function Gameboard({navigation, route}) {
         return selectedDicePoints[i] ? 'black' : 'steelblue'
     }
 
-    const selectedDicePoint = (i) => {
-        if (nbrOfThrowsLeft === 0 ){
-        let selected = [...selectedDices];
+   
+
+const selectDicePoints = (i) => {
         let selectedPoints = [...selectedDicePoints];
         let points = [...dicePointsTotal];
         if (!selectedPoints[i]) {
-        selectedPoints[i] = true;  
-        let nbrOfDices = diceSpots.reduce((total, x) => (x === (i + 1) ? total + 1 : total), 0);
-        points[i] = nbrOfDices* (i + 1);
-        setDicePointsTotal(points);
-        setSelectedDicePoints(selectedPoints);
-        setNbrOfThrowsLeft(NBR_OF_THROWS);
-        return points[i];
+            selectedPoints[i] = true;
+            let nbrOfDices = diceSpots.reduce((total, x) => (x === (i + 1) ? total + 1 : total), 0 );
+            points[i] = nbrOfDices * (i + 1);
+            // setNbrOfThrowsLeft(NBR_OF_THROWS);
+            setDicePointsTotal(points);
+            setSelectedDicePoints(selectedPoints);
+            return points[i];
+        } else {
+            setStatus('You already selected points for ' + (i + 1));
         }
-        else {
-            setStatus('You already selected points for ' + ( i + 1 ));
-        }
-    }
-    else {
-        setStatus('throw ' + NBR_OF_THROWS + ' times before setting points.')
-    }
 
-}
+};
 
     const throwDices = () => {
-        let spots = [...diceSpots];
-        for (let i = 0; i < NBR_OF_DICES; i++) {
-            if (!selectedDices[i]) {
-                let randomNumber = Math.floor(Math.random() * MAX_SPOT +1);
-                spots[i] = randomNumber;
-                board[i] = 'dice-' + randomNumber;
+        if (nbrOfThrowsLeft > 0) {
+            let spots = [...diceSpots];
+            let newBoard = [];
+            let points = [...dicePointsTotal];
+            for (let i = 0; i < NBR_OF_DICES; i++) {
+                if (!selectedDices[i]) {
+                    let randomNumber = Math.floor(Math.random() * MAX_SPOT +1);
+                    spots[i] = randomNumber;
+                    newBoard.push('dice-' + randomNumber);
+                    
+                } else{
+                    newBoard.push(board[i]);
+                    points[diceSpots[i] - 1] += diceSpots[i];
+                }
             }
+            setDiceSpots(spots);
+            setNbrOfThrowsLeft(nbrOfThrowsLeft-1);
+            setBoard(newBoard);
+            setDicePointsTotal(points);
         }
-        setDiceSpots(spots);
-        setNbrOfThrowsLeft(nbrOfThrowsLeft-1);
-    }
+    };
+        
 
     function getSpotTotal(i) {
         return dicePointsTotal[i];
@@ -141,6 +148,8 @@ export default function Gameboard({navigation, route}) {
             <Container>
                 <Row>{row}</Row>
             </Container>
+            <Text> Throw and select dices</Text>
+            
             <Text>Throws Left: {nbrOfThrowsLeft} </Text>
             
             <Pressable
